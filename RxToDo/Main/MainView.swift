@@ -67,6 +67,7 @@ class MainView: UIViewController {
             .disposed(by: self.disposeBag)
 
         self.mainOwnView.mainTableView.rx.itemDeleted
+            .do (onNext: {  _ in print("RUN")})
             .map { ActionList.deleteItem($0) }
             .bind(to: self.actionViewModel.actionEvent)
             .disposed(by: self.disposeBag)
@@ -128,16 +129,19 @@ class MainView: UIViewController {
 }
 
 extension MainView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteButton = UITableViewRowAction(style: .destructive, title: "삭제") { _, indexPath in
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { _,_,_  in
+
             guard let dataSource = tableView.dataSource else {
                 return
             }
             dataSource.tableView?(tableView, commit: .delete, forRowAt: indexPath)
-        }
-        return [deleteButton]
-    }
 
+        }
+
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
     func tableView(_: UITableView, willBeginEditingRowAt _: IndexPath) {
         self.navigationItem.leftBarButtonItem = self.doneButton
     }
