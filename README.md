@@ -6,6 +6,7 @@ RxSwift를 배워서 처음으로 만들어본 예제 파일입니다.
 
 - Using [RxSwift], [RxCocoa], [RxDataSource]
 - MVVM
+- Add ToDo, Remove ToDo, ReOrder ToDoList 
 
 ## ScreenShot
 <div>
