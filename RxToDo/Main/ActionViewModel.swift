@@ -30,7 +30,7 @@ class ActionViewModel {
 
     func checkItem(_ index: Int) {
         self.mainData.memo[index - 1].isCheck = !self.mainData.memo[index - 1].isCheck
-        self.coreData.chagneData(index)
+        self.coreData.chagneCheckData(index)
     }
 
     func removeItem(_ indexPath: IndexPath) {
@@ -43,6 +43,7 @@ class ActionViewModel {
         let targetData = self.mainData.memo[sourceIndexPath.row]
         self.mainData.memo.remove(at: sourceIndexPath.row)
         self.mainData.memo.insert(targetData, at: destinationIndexPath.row)
+        self.coreData.saveAllData()
     }
 
     init() {

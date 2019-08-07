@@ -12,14 +12,15 @@ import RxSwift
 
 final class MainDataManager {
     static let sharedMainData = MainDataManager()
+    var memoData = BehaviorRelay<[SectionOfMemoData]>(value: [])
 
     var memo = [ToDoData]() {
-        didSet {
-            self.memoData.accept([SectionOfMemoData(items: self.memo)])
+        didSet(oldValue) {
+            if oldValue != self.memo {
+                self.memoData.accept([SectionOfMemoData(items: self.memo)])
+            }
         }
     }
-
-    var memoData = BehaviorRelay<[SectionOfMemoData]>(value: [])
 
     private init() {}
 }

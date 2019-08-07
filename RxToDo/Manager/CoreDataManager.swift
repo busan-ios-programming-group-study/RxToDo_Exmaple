@@ -62,7 +62,7 @@ final class CoreDataManager {
         return loadMemo
     }
 
-    func chagneData(_ index: Int) {
+    func chagneCheckData(_ index: Int) {
         guard let context = context else {
             return
         }
@@ -119,6 +119,29 @@ final class CoreDataManager {
             } catch {
                 context.rollback()
             }
+        }
+    }
+
+    func saveAllData() {
+        guard let context = context else {
+            return
+        }
+
+        let request = NSFetchRequest<NSManagedObject>(entityName: "ToDo")
+
+        do {
+            let savedToDoData = try context.fetch(request)
+            for content in savedToDoData {
+                context.delete(content)
+            }
+
+            try context.save()
+        } catch {
+            context.rollback()
+        }
+
+        self.mainData.memo.forEach { saveTargetData in
+            saveData(newMemoData: saveTargetData)
         }
     }
 

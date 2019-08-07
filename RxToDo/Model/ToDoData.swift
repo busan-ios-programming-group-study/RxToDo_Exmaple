@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ToDoData {
+struct ToDoData: Equatable {
     var id: Int
     var title: String
     var date: String
