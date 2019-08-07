@@ -26,7 +26,6 @@ class ActionViewModel {
         case let .checkItem(index):
             self.checkItem(index)
         }
-        self.mainData.memoData.accept([SectionOfMemoData(items: mainData.memo)])
     }
 
     func checkItem(_ index: Int) {
