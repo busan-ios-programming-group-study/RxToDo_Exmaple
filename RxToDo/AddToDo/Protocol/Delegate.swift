@@ -13,5 +13,5 @@ protocol SendDataDelegate {
     /// 추가할 데이터를 넘겨준다
     ///
     /// - Parameter data: 추가될 ToDo List
-    func sendData(_ data: ToDoData)
+    func sendNewData(_ data: ToDoData)
 }

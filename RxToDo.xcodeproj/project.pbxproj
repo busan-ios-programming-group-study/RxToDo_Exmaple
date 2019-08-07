@@ -91,6 +91,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B406DA8B22FA6393008FB3CB /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B4C5EF7D22F953FB00CFEC19 /* MainDataManager.swift */,
+				B4C5EF7F22F975B500CFEC19 /* CoreDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		B413842C22EE7F6A00B14BEF = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +121,7 @@
 		B413843722EE7F6A00B14BEF /* RxToDo */ = {
 			isa = PBXGroup;
 			children = (
+				B406DA8B22FA6393008FB3CB /* Manager */,
 				B4168AFD22F7E8AD00B1C050 /* AddToDo */,
 				B4168AFA22F7E46B00B1C050 /* Main */,
 				B4168AF722F7E37900B1C050 /* Model */,
@@ -141,8 +151,6 @@
 				B413843A22EE7F6A00B14BEF /* MainView.swift */,
 				B45051CE22EF35FD00F3F2B0 /* MainViewModel.swift */,
 				B4C5EF7B22F9527D00CFEC19 /* ActionViewModel.swift */,
-				B4C5EF7D22F953FB00CFEC19 /* MainDataManager.swift */,
-				B4C5EF7F22F975B500CFEC19 /* CoreDataManager.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";

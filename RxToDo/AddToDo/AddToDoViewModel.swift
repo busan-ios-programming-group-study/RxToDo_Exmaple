@@ -21,23 +21,10 @@ class AddToDoViewModel {
     var todoDateData = BehaviorSubject<String>(value: "날짜 지정")
     let coreData = CoreDataManager.sharedCoreData
 
-    func saveData() {
+    func sendSaveData() {
         if let sendData = newMemoData {
-            if let context = coreData.context {
-                let object = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: context)
-                object.setValue(sendData.id, forKey: "id")
-                object.setValue(sendData.title, forKey: "title")
-                object.setValue(sendData.date, forKey: "date")
-                object.setValue(sendData.isCheck, forKey: "isCheck")
-
-                do {
-                    try context.save()
-                } catch {
-                    context.rollback()
-                }
-            }
-
-            self.delegate?.sendData(sendData)
+            self.coreData.saveData(newMemoData: sendData)
+            self.delegate?.sendNewData(sendData)
         }
     }
 

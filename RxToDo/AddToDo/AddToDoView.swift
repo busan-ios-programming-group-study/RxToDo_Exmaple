@@ -36,7 +36,7 @@ class AddTodoView: UIViewController {
             self.navigationItem.rightBarButtonItem = doneButton
 
             doneButton.rx.tap.asDriver()
-                .do(onNext: self.addToDoViewModel.saveData)
+                .do(onNext: self.addToDoViewModel.sendSaveData)
                 .drive(onNext: self.dissmissView)
                 .disposed(by: self.disposeBag)
         }

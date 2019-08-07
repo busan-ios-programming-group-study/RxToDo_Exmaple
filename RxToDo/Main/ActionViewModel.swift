@@ -31,56 +31,13 @@ class ActionViewModel {
 
     func checkItem(_ index: Int) {
         self.mainData.memo[index - 1].isCheck = !self.mainData.memo[index - 1].isCheck
-        self.chagneData(index)
-    }
-
-    func chagneData(_ index: Int) {
-        guard let context = coreData.context else {
-            return
-        }
-
-        do {
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ToDo")
-            let toDoData = try context.fetch(fetchRequest)
-
-            for content in toDoData {
-                if index == content.value(forKey: "id") as? Int {
-                    content.setValue(self.mainData.memo[index - 1].isCheck, forKey: "isCheck")
-                }
-            }
-
-            try context.save()
-
-        } catch {
-            context.rollback()
-        }
+        self.coreData.chagneData(index)
     }
 
     func removeItem(_ indexPath: IndexPath) {
         let removeIndex = self.mainData.memo[indexPath.row].id
         self.mainData.memo.remove(at: indexPath.row)
-        self.removeData(removeIndex)
-    }
-
-    func removeData(_ removeIndex: Int) {
-        guard let context = coreData.context else {
-            return
-        }
-        let nsToDoRequest = NSFetchRequest<NSManagedObject>(entityName: "ToDo")
-
-        do {
-            let toDoData = try context.fetch(nsToDoRequest)
-
-            for content in toDoData {
-                if removeIndex == content.value(forKey: "id") as? Int {
-                    context.delete(content)
-                }
-            }
-            try context.save()
-
-        } catch {
-            context.rollback()
-        }
+        self.coreData.removeData(removeIndex)
     }
 
     func moveItem(_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) {
