@@ -66,7 +66,6 @@ class MainCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
         contentView.heightAnchor.constraint(equalToConstant: 45)
         contentView.addSubview(self.checkButton)
         contentView.addSubview(self.mainTitleLabel)

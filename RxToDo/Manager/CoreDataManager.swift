@@ -73,7 +73,7 @@ final class CoreDataManager {
 
             for content in toDoData {
                 if index == content.value(forKey: "id") as? Int {
-                    content.setValue(self.mainData.memo[index - 1].isCheck, forKey: "isCheck")
+                    content.setValue(self.mainData.memo[index].isCheck, forKey: "isCheck")
                 }
             }
 
@@ -106,9 +106,9 @@ final class CoreDataManager {
     }
 
     func saveData(newMemoData: ToDoData) {
+        self.removeData(newMemoData.id)
         if let context = context {
             let object = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: context)
-
             object.setValue(newMemoData.id, forKey: "id")
             object.setValue(newMemoData.title, forKey: "title")
             object.setValue(newMemoData.date, forKey: "date")

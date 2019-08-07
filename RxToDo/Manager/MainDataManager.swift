@@ -22,5 +22,17 @@ final class MainDataManager {
         }
     }
 
+    func makeNewID() -> Int {
+        let sortMemo = self.memo.sorted { (lhs, rhs) -> Bool in
+            lhs.id < rhs.id
+        }
+
+        if let lastID = sortMemo.last?.id {
+            return lastID + 1
+        }
+
+        return 0
+    }
+
     private init() {}
 }

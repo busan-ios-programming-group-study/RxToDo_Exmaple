@@ -20,4 +20,8 @@ struct ToDoData: Equatable {
         self.date = date
         self.isCheck = isCheck
     }
+
+    public static func == (lhs: ToDoData, rhs: ToDoData) -> Bool {
+        return lhs.id == rhs.id && lhs.title == rhs.title && lhs.date == rhs.date
+    }
 }

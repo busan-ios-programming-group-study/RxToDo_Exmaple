@@ -91,6 +91,17 @@ class AddTodoView: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
+    func inputData() {
+        let selectedData = self.addToDoViewModel.dataManager.memo.filter { $0.id == addToDoViewModel.currentDataID }
+
+        if selectedData.count > 0 {
+            self.navigationItem.title = "Modify"
+            self.addToDoViewModel.textFieldData.onNext(selectedData.first!.title)
+            self.addOwnView.toDoTitleTextFiled.text = selectedData.first?.title
+            self.addOwnView.addDateButton.setTitle(selectedData.first?.date, for: .normal)
+        }
+    }
+
     override func loadView() {
         let view = AddToDoLayout()
         self.view = view
@@ -101,5 +112,6 @@ class AddTodoView: UIViewController {
         self.bindNavigationButton()
         self.bindTextField()
         self.bindDateButton()
+        self.inputData()
     }
 }

@@ -13,25 +13,28 @@ import RxSwift
 
 class AddToDoViewModel {
     var disposeBag = DisposeBag()
-    var currentDataCounter = 0
+    var currentDataID = 0
     var newMemoData: ToDoData?
     var delegate: SendDataDelegate?
     var textFieldData = PublishSubject<String>()
     var isEmptyTextField = BehaviorSubject<Bool>(value: false)
     var todoDateData = BehaviorSubject<String>(value: "날짜 지정")
     let coreData = CoreDataManager.sharedCoreData
+    let dataManager = MainDataManager.sharedMainData
 
     func sendSaveData() {
         if let sendData = newMemoData {
-            self.coreData.saveData(newMemoData: sendData)
-            self.delegate?.sendNewData(sendData)
+            if !self.dataManager.memo.contains(sendData) {
+                self.coreData.saveData(newMemoData: sendData)
+                self.delegate?.complete()
+            }
         }
     }
 
     func combineData() {
         Observable.combineLatest(self.textFieldData,
                                  self.todoDateData,
-                                 resultSelector: { str1, str2 in ToDoData(id: self.currentDataCounter, title: str1, date: str2) })
+                                 resultSelector: { str1, str2 in ToDoData(id: self.currentDataID, title: str1, date: str2) })
             .bind(onNext: { [weak self] in self?.newMemoData = $0 })
             .disposed(by: self.disposeBag)
     }

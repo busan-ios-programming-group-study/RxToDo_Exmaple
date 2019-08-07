@@ -29,7 +29,7 @@ class ActionViewModel {
     }
 
     func checkItem(_ index: Int) {
-        self.mainData.memo[index - 1].isCheck = !self.mainData.memo[index - 1].isCheck
+        self.mainData.memo[index].isCheck = !self.mainData.memo[index].isCheck
         self.coreData.chagneCheckData(index)
     }
 

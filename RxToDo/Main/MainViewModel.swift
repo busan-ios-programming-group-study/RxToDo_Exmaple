@@ -13,8 +13,10 @@ class MainViewModel: SendDataDelegate {
     var mainData = MainDataManager.sharedMainData
     var coreData = CoreDataManager.sharedCoreData
 
-    func sendNewData(_ data: ToDoData) {
-        self.mainData.memo.append(data)
+    func complete() {
+        if let newData = self.coreData.loadSaveData() {
+            self.mainData.memo = newData
+        }
     }
 
     init() {
