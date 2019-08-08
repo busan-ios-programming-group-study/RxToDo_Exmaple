@@ -29,20 +29,20 @@ class ActionViewModel {
     }
 
     func checkItem(_ index: Int) {
-        self.mainData.memo[index].isCheck = !self.mainData.memo[index].isCheck
+        self.mainData.toDo[index].isCheck = !self.mainData.toDo[index].isCheck
         self.coreData.chagneCheckData(index)
     }
 
     func removeItem(_ indexPath: IndexPath) {
-        let removeIndex = self.mainData.memo[indexPath.row].id
-        self.mainData.memo.remove(at: indexPath.row)
+        let removeIndex = self.mainData.toDo[indexPath.row].id
+        self.mainData.toDo.remove(at: indexPath.row)
         self.coreData.removeData(removeIndex)
     }
 
     func moveItem(_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) {
-        let targetData = self.mainData.memo[sourceIndexPath.row]
-        self.mainData.memo.remove(at: sourceIndexPath.row)
-        self.mainData.memo.insert(targetData, at: destinationIndexPath.row)
+        let targetData = self.mainData.toDo[sourceIndexPath.row]
+        self.mainData.toDo.remove(at: sourceIndexPath.row)
+        self.mainData.toDo.insert(targetData, at: destinationIndexPath.row)
         self.coreData.saveAllData()
     }
 

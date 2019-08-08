@@ -11,12 +11,12 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class AddTodoView: UIViewController {
+class DetailTodoView: UIViewController {
     var addToDoViewModel = AddToDoViewModel()
     var disposeBag = DisposeBag()
 
-    var addOwnView: AddToDoLayout {
-        return self.view as! AddToDoLayout
+    var addOwnView: DetailToDoLayout {
+        return self.view as! DetailToDoLayout
     }
 
     func dissmissView() {
@@ -92,7 +92,7 @@ class AddTodoView: UIViewController {
     }
 
     func inputData() {
-        let selectedData = self.addToDoViewModel.dataManager.memo.filter { $0.id == addToDoViewModel.currentDataID }
+        let selectedData = self.addToDoViewModel.dataManager.toDo.filter { $0.id == addToDoViewModel.currentDataID }
 
         if selectedData.count > 0 {
             self.navigationItem.title = "Modify"
@@ -103,7 +103,7 @@ class AddTodoView: UIViewController {
     }
 
     override func loadView() {
-        let view = AddToDoLayout()
+        let view = DetailToDoLayout()
         self.view = view
     }
 

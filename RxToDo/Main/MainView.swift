@@ -22,21 +22,21 @@ class MainView: UIViewController {
         return self.view as! MainLayout
     }
 
-    func addItem(clickedIndex: IndexPath? = nil) {
-        let addView = AddTodoView()
+    func presentDetailView(clickedIndex: IndexPath? = nil) {
+        let addView = DetailTodoView()
 
         if clickedIndex == nil {
             addView.addToDoViewModel.currentDataID = self.mainViewModel.mainData.makeNewID()
         } else {
-            addView.addToDoViewModel.currentDataID = self.mainViewModel.mainData.memo[clickedIndex!.row].id
+            addView.addToDoViewModel.currentDataID = self.mainViewModel.mainData.toDo[clickedIndex!.row].id
         }
         addView.addToDoViewModel.delegate = self.mainViewModel
         let newNavi = UINavigationController(rootViewController: addView)
         self.present(newNavi, animated: true)
     }
 
-    func bindUI() {
-        let dataSource = RxTableViewSectionedReloadDataSource<SectionOfMemoData>(
+    func makeTableView() {
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionOfToDoData>(
             configureCell: { [weak self] _, _, indexPath, item in
                 guard let self = self else {
                     fatalError()
@@ -62,10 +62,16 @@ class MainView: UIViewController {
         dataSource.canEditRowAtIndexPath = { _, _ in true }
         dataSource.canMoveRowAtIndexPath = { _, _ in true }
 
-        self.mainViewModel.mainData.memoData.asDriver()
+        self.mainViewModel.mainData.toDoData.asDriver()
             .drive(self.mainOwnView.mainTableView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
 
+        self.mainOwnView.mainTableView.rx
+            .setDelegate(self)
+            .disposed(by: self.disposeBag)
+    }
+
+    func bindTableViewAction() {
         self.mainOwnView.mainTableView.rx.itemDeleted
             .map { ActionList.deleteItem($0) }
             .bind(to: self.actionViewModel.actionEvent)
@@ -78,11 +84,7 @@ class MainView: UIViewController {
 
         self.mainOwnView.mainTableView.rx.itemSelected
             .do(onNext: { [weak self] in self?.mainOwnView.mainTableView.deselectRow(at: $0, animated: true) })
-            .bind(onNext: self.addItem)
-            .disposed(by: self.disposeBag)
-
-        self.mainOwnView.mainTableView.rx
-            .setDelegate(self)
+            .bind(onNext: self.presentDetailView)
             .disposed(by: self.disposeBag)
     }
 
@@ -94,7 +96,7 @@ class MainView: UIViewController {
         self.navigationItem.leftBarButtonItem = self.editButton
 
         addButton.rx.tap.asDriver()
-            .drive(onNext: { _ in self.addItem() })
+            .drive(onNext: { _ in self.presentDetailView() })
             .disposed(by: self.disposeBag)
 
         self.editButton?.rx.tap.asDriver()
@@ -117,7 +119,8 @@ class MainView: UIViewController {
     }
 
     override func viewWillAppear(_: Bool) {
-        self.bindUI()
+        self.makeTableView()
+        self.bindTableViewAction()
         self.bindNavigationButton()
     }
 

@@ -8,20 +8,14 @@
 
 import Foundation
 
-enum ActionList: Equatable {
-    static func == (lhs: ActionList, rhs: ActionList) -> Bool {
-        switch (lhs, rhs) {
-        case (.checkItem, .checkItem):
-            return true
-        case (.moveItem, .moveItem):
-            return true
-        case (.deleteItem, .deleteItem):
-            return true
-        default:
-            return false
-        }
-    }
+/**
+ TableView에서 발생할 수 있는 액션
 
+ - checkItem: 체크하는 액션
+ - moveItem: 순서를 재배열하는 액션
+ - deleteItem: 셀 아이템을 삭제하는 액션
+ */
+enum ActionList {
     case checkItem(_ index: Int)
     case moveItem((indexList: IndexPath, destinationIndex: IndexPath))
     case deleteItem(_ index: IndexPath)

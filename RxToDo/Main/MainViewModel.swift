@@ -9,19 +9,19 @@
 import CoreData
 import Foundation
 
-class MainViewModel: SendDataDelegate {
+class MainViewModel: CompleteDelegate {
     var mainData = MainDataManager.sharedMainData
     var coreData = CoreDataManager.sharedCoreData
 
     func complete() {
         if let newData = self.coreData.loadSaveData() {
-            self.mainData.memo = newData
+            self.mainData.toDo = newData
         }
     }
 
     init() {
         if let loadToDoData = coreData.loadSaveData() {
-            self.mainData.memo = loadToDoData
+            self.mainData.toDo = loadToDoData
         }
     }
 }

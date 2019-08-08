@@ -9,7 +9,7 @@
 import UIKit
 
 /// AddToDo 뷰를 그려준다
-class AddToDoLayout: UIView {
+class DetailToDoLayout: UIView {
     let toDoTitleTextFiled: UITextField = {
         let toDotitleTextField = UITextField()
         toDotitleTextField.placeholder = "Input Ttile"

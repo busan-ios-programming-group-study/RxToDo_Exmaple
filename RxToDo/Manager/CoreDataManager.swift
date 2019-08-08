@@ -25,8 +25,13 @@ final class CoreDataManager {
         return nil
     }()
 
+    /**
+     저장된 ToDoData들을 불러온다.
+
+     - Returns: 저장된 ToDoData
+     */
     func loadSaveData() -> [ToDoData]? {
-        var loadMemo = [ToDoData]()
+        var loadToDo = [ToDoData]()
 
         do {
             guard let context = context else {
@@ -52,16 +57,21 @@ final class CoreDataManager {
                     return nil
                 }
 
-                loadMemo.append(ToDoData(id: id, title: title, date: date, isCheck: isCheck))
+                loadToDo.append(ToDoData(id: id, title: title, date: date, isCheck: isCheck))
             }
 
         } catch {
             print(error.localizedDescription)
         }
 
-        return loadMemo
+        return loadToDo
     }
 
+    /**
+     ToDo에 체크를 하면 체크한 값을 저장한다.
+
+     - Parameter index: 체크한 Cell의 ID 값
+     */
     func chagneCheckData(_ index: Int) {
         guard let context = context else {
             return
@@ -73,7 +83,7 @@ final class CoreDataManager {
 
             for content in toDoData {
                 if index == content.value(forKey: "id") as? Int {
-                    content.setValue(self.mainData.memo[index].isCheck, forKey: "isCheck")
+                    content.setValue(self.mainData.toDo[index].isCheck, forKey: "isCheck")
                 }
             }
 
@@ -84,6 +94,11 @@ final class CoreDataManager {
         }
     }
 
+    /**
+     저장된 ToDoData Array에 값을 삭제한다.
+
+     - Parameter removeIndex: 체크한 Cell의 IndexPath.row
+     */
     func removeData(_ removeIndex: Int) {
         guard let context = context else {
             return
@@ -105,14 +120,19 @@ final class CoreDataManager {
         }
     }
 
-    func saveData(newMemoData: ToDoData) {
-        self.removeData(newMemoData.id)
+    /**
+     ToDoData Array에 값을 저장한다.
+
+     - Parameter newToDoData: 저장할 ToDoData
+     */
+    func saveData(newToDoData: ToDoData) {
+        self.removeData(newToDoData.id)
         if let context = context {
             let object = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: context)
-            object.setValue(newMemoData.id, forKey: "id")
-            object.setValue(newMemoData.title, forKey: "title")
-            object.setValue(newMemoData.date, forKey: "date")
-            object.setValue(newMemoData.isCheck, forKey: "isCheck")
+            object.setValue(newToDoData.id, forKey: "id")
+            object.setValue(newToDoData.title, forKey: "title")
+            object.setValue(newToDoData.date, forKey: "date")
+            object.setValue(newToDoData.isCheck, forKey: "isCheck")
 
             do {
                 try context.save()
@@ -122,6 +142,7 @@ final class CoreDataManager {
         }
     }
 
+    /// 저장된 ToDoData를 전부 삭제하고 새로 저장한다.
     func saveAllData() {
         guard let context = context else {
             return
@@ -140,8 +161,8 @@ final class CoreDataManager {
             context.rollback()
         }
 
-        self.mainData.memo.forEach { saveTargetData in
-            saveData(newMemoData: saveTargetData)
+        self.mainData.toDo.forEach { saveTargetData in
+            saveData(newToDoData: saveTargetData)
         }
     }
 

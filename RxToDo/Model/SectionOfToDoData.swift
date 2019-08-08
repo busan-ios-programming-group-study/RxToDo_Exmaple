@@ -1,5 +1,5 @@
 //
-//  SectionOfMemoData.swift
+//  SectionOfToDoData.swift
 //  RxTableView
 //
 //  Created by Milkyo on 05/08/2019.
@@ -9,14 +9,14 @@
 import Foundation
 import RxDataSources
 
-struct SectionOfMemoData {
+struct SectionOfToDoData {
     var items: [Item]
 }
 
-extension SectionOfMemoData: SectionModelType {
+extension SectionOfToDoData: SectionModelType {
     typealias Item = ToDoData
 
-    init(original: SectionOfMemoData, items: [Item]) {
+    init(original: SectionOfToDoData, items: [Item]) {
         self = original
         self.items = items
     }
